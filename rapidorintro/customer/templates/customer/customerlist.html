@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer List</title>
+    {% load static %}  
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" >  
+    <link href="{% static 'css/formstyle.css' %}" rel="stylesheet" >  
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" type="js"></script>  
+</head>
+    <body>
+        <div id="vue-app-fetchcustomer" class="container-fluid">
+        <div class="bg-white">
+            <button  class="btn btn-info button" v-on:click="addcustomer">
+                <img src="{% static 'assets/plus-square.svg' %}"  >                
+                Add New Customer</button>
+        </div>    
+        <h1 class="heading ">Customers</h2>
+        
+        <div class="search">
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">    
+        </div>
+
+        <table id="myTable" class="table table-striped table-bordered table-responsive">  
+            <thead class="thead-dark">  
+            <tr>  
+                <th>ID</th>  
+                <th>Customer Name</th>
+                <th>User Name</th>     
+                <th>Mobile</th>   
+                <th>Edit</th>
+                <th>Delete</th>  
+            </tr>  
+            </thead>  
+            <tbody>  
+                <tr v-for="customer in customers" >  
+                    <td>[[ customer.id ]]</td>  
+                    <td>[[ customer.customername ]]</td>  
+                    <td>[[ customer.username ]]</td>  
+                    <td>[[ customer.mobile ]]</td>   
+                    <td>
+                        <button class="btn btn-outline-secondary" v-on:click="editcustomer([[customer.id]])">
+                            <img src="{% static 'assets/pencil-square.svg' %}" class="text-white" >
+                            Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-danger" v-on:click="deletecustomer([[customer.id]])">
+                            <img src="{% static 'assets/trash3.svg' %}" class="text-white" >
+                            Delete</button>  
+                    </td>  
+                </tr>   
+            </tbody>  
+        </table>  
+        
+        <!-- The Modal -->
+        <div class="modal hidden" >
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header ">
+                <h4 class="modal-title ">[[modaltitle]]</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" v-on:click="hidemodal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                        <form method="post" class="post-form">
+                            {% csrf_token %}   
+                                <div class="mb-3 mt-3 hidden">
+                                <label for="id" class="form-label">Id:</label>
+                                <input type="text" class="form-control" id="id" name="id"
+                                v-model:"id" >
+                                </div>
+                                <div class="mb-3 mt-3">
+                                <label for="customername" class="form-label">Customer Name:</label>
+                                <input type="text" class="form-control" id="customername" placeholder="Enter Customer Name" 
+                                v-model="customername" >
+                                </div>
+                                <div class="mb-3">
+                                <label for="username" class="form-label">User Name:</label>
+                                <input type="text" class="form-control" id="username" placeholder="Enter Username"
+                                name="username" v-model="username">
+                                </div>
+                                <div class="mb-3">
+                                <label for="mobile" class="form-label">Mobile:</label>
+                                <input type="text" class="form-control" id="mobile" placeholder="Enter mobile"
+                                name="mobile" v-model="mobile">
+                                </div>
+            
+                        </form>                           
+                </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                   <button  class="btn btn-info save" v-on:click="savecustomer">
+                    <img src="{% static 'assets/save.svg' %}"  >              
+                    Save</button>
+                   <button  class="btn btn-secondary update" v-on:click="updatecustomer">
+                    <img src="{% static 'assets/pencil.svg' %}"  >              
+                    Update</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>  
+
+        </div>
+
+        <script src="{% static 'jquery/jquery.js' %}" ></script> 
+        <script src="{% static 'axios/axios/dist/axios.min.js' %}" ></script> 
+        <script src="{% static 'vuejs/vue.js' %}" ></script> 
+        <script src="{% static 'js/customer/fetchcustomer.js' %}" ></script> 
+        <script src="{% static 'js/filter/filter.js' %}" ></script>   
+ 
+    </body>
+</html>
